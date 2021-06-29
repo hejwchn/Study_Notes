@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ajax</title>
+</head>
+<body>
+    <a id="toAjax" href="./data.json">请求数据</a>
+    <div id="content"></div>
+    <!-- <div id="loading" style="display:none"><img src="./src/image/loading.gif" alt="加载中"></div> -->
+    <form action="check.php" name="myform" method="POST">
+        用户名：<input type="text" name="userName">
+        密码：<input type="password" name="pwd">
+        <input type="submit" name="submit" value="登陆">
+    </form>
+</body>
+<script src="./../demo.js"></script>
+</html>
