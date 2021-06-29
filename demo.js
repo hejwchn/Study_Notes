@@ -139,51 +139,51 @@
        // obj.drink().smoke();
 
 
-       //递归思想实现对象深拷贝
-       //-------------------------------------------------------------------------
-       //源对象
-       var obj = {
-           name : "origin",
-           sex : "male",
-           card : ["weixin", "alipay"],
-           wife : {
-               name : "wife",
-               son : {
-                   name : "son"
-               }
-           }
-       }
-       var obj1 = {};
-       function deepClone(origin, target) {
-           var target = target || {},
-               toStr = Object.prototype.toString,
-               array = "[object Array]";
-           //遍历对象
-           for (var prop in origin){
-               //1.判断对象的属性是否时自身上的属性
-               if(origin.hasOwnProperty(prop)){
-               //2.判断源对象的属性的typeof是否是object
-                   if(origin[prop] !== "null"
-                      && typeof(origin[prop]) == "object"){
-               //3.如果是数组则创建空数组，否则创建空对象
-                       // if(toStr.call(origin[prop]) == array){
-                       //     target[prop] = [];
-                       // }else{
-                       //     target[prop] = {};
-                       // }
-                       //简化：用三步运算符实现这个if else
-                       target[prop] 
-                       = toStr.call(origin[prop]) == array ? [] : {};
-               //4.调用自身实现递归
-                       deepClone(origin[prop], target[prop]);
-                   //如果不是object则是原始值直接拷贝
-                   }else{
-                       target[prop] = origin[prop];
-                   }
-               }
-           }
-           return target;
-       }
+    // //    递归思想实现对象深拷贝
+    // //    -------------------------------------------------------------------------
+    // //    源对象
+    //    var obj = {
+    //        name : "origin",
+    //        sex : "male",
+    //        card : ["weixin", "alipay"],
+    //        wife : {
+    //            name : "wife",
+    //            son : {
+    //                name : "son"
+    //            }
+    //        }
+    //    }
+    //    var obj1 = {};
+    //    function deepClone(origin, target) {
+    //        var target = target || {},
+    //            toStr = Object.prototype.toString,
+    //            array = "[object Array]";
+    //        //遍历对象
+    //        for (var prop in origin){
+    //            //1.判断对象的属性是否时自身上的属性
+    //            if(origin.hasOwnProperty(prop)){
+    //            //2.判断源对象的属性的typeof是否是object
+    //                if(origin[prop] !== "null"
+    //                   && typeof(origin[prop]) == "object"){
+    //            //3.如果是数组则创建空数组，否则创建空对象
+    //                    // if(toStr.call(origin[prop]) == array){
+    //                    //     target[prop] = [];
+    //                    // }else{
+    //                    //     target[prop] = {};
+    //                    // }
+    //                    //简化：用三步运算符实现这个if else
+    //                    target[prop] 
+    //                    = toStr.call(origin[prop]) == array ? [] : {};
+    //            //4.调用自身实现递归
+    //                    deepClone(origin[prop], target[prop]);
+    //                //如果不是object则是原始值直接拷贝
+    //                }else{
+    //                    target[prop] = origin[prop];
+    //                }
+    //            }
+    //        }
+    //        return target;
+    //    }
 
 
        //实现数组自带的push方法
