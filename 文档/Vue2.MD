@@ -101,5 +101,7 @@ Object.assign(obj, obj1);
 
 // 用于重置data数据
 Object.assign(this.$data,this.$options.data()); 
+//重置某些属性
+this.record_data = this.$options.data.call(this).record_data
 ```
 
