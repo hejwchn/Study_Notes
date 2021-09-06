@@ -105,3 +105,14 @@ Object.assign(this.$data,this.$options.data());
 this.record_data = this.$options.data.call(this).record_data
 ```
 
+### Object.keys(target)
+> 获取对象中的所有key值
+
+```js
+// 参数
+// 1.target（目标对象）
+
+// 返回值（数组）
+Object.keys(obj).length === 0;
+//判断obj对象中有没有值
+```
