@@ -116,3 +116,12 @@ this.record_data = this.$options.data.call(this).record_data
 Object.keys(obj).length === 0;
 //判断obj对象中有没有值
 ```
+```js
+//对象各个值求和
+eval(Object.values(obj).join("+"))
+//首先使用Object.values将对象值转换为数组，然后利用eval函数求和
+```
+```js
+//数组去重
+Array.from(new Set(arr))
+```
