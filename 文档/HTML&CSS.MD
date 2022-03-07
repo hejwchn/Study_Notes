@@ -317,4 +317,13 @@ div{
 
 }
 ```
+#### 水平垂直居中
+```css
+/* 父元素使用 */
+.in{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+```
 

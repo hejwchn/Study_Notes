@@ -83,6 +83,17 @@ this.$set(obj, name, 'world')
 Object.values(obj);
 ```
 
+### Object.keys(target)
+> 获取对象中的所有key值
+
+```js
+// 参数
+// 1.target（目标对象）
+
+// 返回值（数组）
+Object.keys(obj).length === 0;
+//判断obj对象中有没有值
+```
 ### Object.assign()
 > 将所有可枚举属性的值从一个或多个源对象分配到目标对象
 
@@ -105,23 +116,162 @@ Object.assign(this.$data,this.$options.data());
 this.record_data = this.$options.data.call(this).record_data
 ```
 
-### Object.keys(target)
-> 获取对象中的所有key值
-
-```js
-// 参数
-// 1.target（目标对象）
-
-// 返回值（数组）
-Object.keys(obj).length === 0;
-//判断obj对象中有没有值
-```
 ```js
 //对象各个值求和
 eval(Object.values(obj).join("+"))
 //首先使用Object.values将对象值转换为数组，然后利用eval函数求和
 ```
+
 ```js
 //数组去重
 Array.from(new Set(arr))
+//生成一个新数组
+```
+
+### 判断字符串是否包含某些字符
+```js
+let str = '张三12314'
+//返回字符首次出现的index值，若没有则返回-1
+str.indexOf('搜索的值');
+//返回字符首次出现的index值，若没有则返回-1，可检索与正则相匹配的字符
+str.search('搜索的值');
+str.search(RegExp(/3/));
+//如果传入一个非正则表达式对象，则会隐式地使用 new RegExp(obj) 将其转换为一个 RegExp
+//如果不传参，会返回一个包含空字符串的数组
+str.match('1')
+//返回==>  ['1', index: 2, input: '张三1214', groups: undefined]
+```
+### 如何在filters中使用data数据
+```js
+// 在全局声明一个变量_that,在 beforeCreate的钩子函数中将vue实例赋值给全局变量_that，然后filters中即可通过_that获取data中数据
+```
+
+### 路由跳转后再返回如何保持第一页面的数据
+```html
+<-- 路由出口文件修改为以下 -->
+<keep-alive>
+   <router-view v-if="$route.meta.keepAlive" />
+</keep-alive>
+<router-view v-if="!$route.meta.keepAlive" />
+```
+```js
+//在需要缓存的路由（即保持数据的页面）添加meta对象
+{
+  path: '/Load',
+  name: 'Load',
+  component: Load,
+  meta:{
+   keepAlive:true
+  }
+}
+```
+### 数据代理--通过一个对象代理另一个对象中属性的操作
+#### 基础：Object.defineProperty()
+```js
+//原生
+let obj = {
+    x: 100
+  }
+let obj2 = {
+    y: 200
+  }
+
+Object.defineProperty(obj2, 'x', {
+  enumerable:true,  //控制属性是否可以枚举, 默认值是false
+  writable:true,  //控制属性是否可以被修改, 默认值是false
+  configurable:true,  //控制属性是否可以被删除, 默认是false
+  //当读取obj2的x属性时，get函数(getter)就会被调用
+  get() {
+    return obj.x;
+  },
+  //当修改obj2的x属性时，set函数(setter)就会被调用，且会收到修改的具体值
+  set(value) {
+    obj.x = value
+  }
+})
+
+//数据代理在vue的data中的应用
+
+//意义：如果vue中没做数据代理{{name}}就得写成{{_data.name}}，令编码更加方便，这就是数据代理在Vue中的实际应用意义
+
+//数据代理生成过程
+//1.当我们声明vue实例对象之后，即vm
+//2.vm中会生成各种配置对象options，其中options包含了_data
+//3.由于底层代码的支持会自动给_data中每个数据，在_data的外部(即同级)添加对应新的元素(即数据代理)，同时每个name、address中都会有setter、getter函数
+vm {
+  ......
+  _data:{ __ob__: Observer },  //这里面存着name与address的值
+  ......
+  name: '尚硅谷',
+  address: '上海',
+  ......
+  get name: f proxyGetter,
+  set name: f proxySetter,
+  get address: f proxyGetter,
+  set address: f proxySetter,  //这个就是添加的getter与setter方法
+  ......
+}
+//总结
+//1.Vue中的数据代理：通过vm对象代理data对象中属性的操作(读/写)。
+//2.Vue中数据代理的好处：更加方便的操作data中的数据
+//3.基本原理：
+// (1)通过Object.defineProperty()把data对象中所有属性添加到vm上；
+// (2)为每一个添加到vm上的属性，都指定一个getter/setter；
+// (3)在getter/setter内部去操作(读/写)data中对应的属性。
+
+//数据代理在计算属性computed中的应用
+//计算属性定义：要用的属性不存在，要通过已有属性计算得来。
+//计算属性原理：底层借助了Object.defineproperty()提供的getter和setter。
+//计算属性中的 get函数什么时候执行？ ❶初次读取时会执行一次❷当依赖的数据发生变化时会被再次调用。
+//计算属性的优势：与methods实现相比，内部有 缓存机制(复用)，效率更高，调试更方便。
+
+{{fullName}}  //这里fullName多次复用了, fullName直接调用缓存的info的值, 这个就是缓存机制/
+{{fullName}}
+{{fullName}}
+
+computed:{
+  fullName:{
+    //get作用：当有人读取fullName时,get就会被调用,且返回值就作为fullName的值
+    //get什么时候被调用? ❶初次读取fristName时 ❷所依赖的数据发生改变时
+    get(){return this.info = 2},
+    set(){},  //set什么时候调用? 当fullName被修改时调用, 不是必须写
+  }
+  //如果不用写set(),直接简写
+  fullName:{return this.info = 2}
+}
+```
+### Vue2在css中使用data变量
+```js
+// data中定义
+data{
+  return{
+    height: 100px
+  }
+},
+// computed中定义
+computed: {
+    cssVars() {
+      return {
+        "--height": this.height
+      };
+    }
+  },
+```
+```css
+/* css中定义 */
+.transfer {
+  height: var(--height);
+}
+```
+```html
+<!-- html标签中使用 -->
+<div class="transfer" :style="cssVars"></div>
+```
+### js获取class中的属性
+```js
+var oDiv = document.getElementById('div1');   
+function getStyle(obj, attr){
+  return obj.currentStyle ? obj.currentStyle[attr] : getComputedStyle(obj, false)[attr];
+}
+getStyle(oDiv, 'width')
 ```
