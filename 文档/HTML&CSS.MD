@@ -326,4 +326,11 @@ div{
   justify-content: center;
 }
 ```
+```html
+<!-- 或父子一块使用 -->
+<div style="display:flex; align-items: center">
+  <van-checkbox style="margin: auto">
+  </van-checkbox>
+</div>
+```
 
