@@ -275,3 +275,10 @@ function getStyle(obj, attr){
 }
 getStyle(oDiv, 'width')
 ```
+### 解决使用el-table使用fixed后高度错乱的问题
+```js
+// ELtable为<el-table>标签的ref
+  this.$nextTick(() => {
+    this.$refs["ELtable"].doLayout();
+  });
+```
