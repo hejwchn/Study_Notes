@@ -282,3 +282,42 @@ getStyle(oDiv, 'width')
     this.$refs["ELtable"].doLayout();
   });
 ```
+### el-table行合并
+```js
+// data定义
+spanArr: [],
+pos: new Number()
+// methods
+//表格数据处理 类型[]
+getSpanArr(data) {　
+  for (var i = 0; i < data.length; i++) {
+    if (i === 0) {
+      this.spanArr.push(1);
+      this.pos = 0
+    } else {
+      // 判断当前元素与上一个元素是否相同
+    if (data[i].name === data[i - 1].name) {
+        this.spanArr[this.pos] += 1;
+        this.spanArr.push(0);
+      } else {
+        this.spanArr.push(1);
+        this.pos = i;
+      }
+    }
+  }
+},
+//table调用
+cellMerge({ row, column, rowIndex, columnIndex }) {
+  if (columnIndex === 0) {
+    //合并第一列
+    const _row = this.spanArr[rowIndex];
+    const _col = _row > 0 ? 1 : 0;
+    return {
+      rowspan: _row,
+      colspan: _col
+    }
+  }
+},
+//el-table使用参数
+:span-method="cellMerge"
+```
