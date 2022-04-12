@@ -103,7 +103,7 @@ Object.keys(obj).length === 0;
 // 2.source（源对象）
 
 // 返回值（目标对象）
-Object.assign(obj, obj1);
+Object.assign(target, source);
 ```
 
 ### this.$options.data()
@@ -282,7 +282,7 @@ getStyle(oDiv, 'width')
     this.$refs["ELtable"].doLayout();
   });
 ```
-### el-table行合并
+### el-table行合并（要合并的数据必须是连续的）
 ```js
 // data定义
 spanArr: [],
