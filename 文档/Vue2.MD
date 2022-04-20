@@ -2,7 +2,7 @@
 
 [toc]
 
-## 监听 watch
+### 监听 watch
 >  会在实例化时调用 $watch()，被监听数据变化时调用其对应方法
 > 使用：数据变化时需要做异步或消耗较大性能时
 > 类型：{ [key: string]: string | Function | Object | Array }
@@ -71,7 +71,6 @@ f: {
 // 返回值（设置的值）
 this.$set(obj, name, 'world')
 ```
-
 ### Object.values()
 > 返回一个对象‘自身’的所有可枚举属性值的数组
 
@@ -82,7 +81,6 @@ this.$set(obj, name, 'world')
 // 返回值（数组）
 Object.values(obj);
 ```
-
 ### Object.keys(target)
 > 获取对象中的所有key值
 
@@ -105,7 +103,6 @@ Object.keys(obj).length === 0;
 // 返回值（目标对象）
 Object.assign(target, source);
 ```
-
 ### this.$options.data()
 > 存储着初始化前的data数据
 ```js
@@ -127,7 +124,6 @@ eval(Object.values(obj).join("+"))
 Array.from(new Set(arr))
 //生成一个新数组
 ```
-
 ### 判断字符串是否包含某些字符
 ```js
 let str = '张三12314'
@@ -145,7 +141,6 @@ str.match('1')
 ```js
 // 在全局声明一个变量_that,在 beforeCreate的钩子函数中将vue实例赋值给全局变量_that，然后filters中即可通过_that获取data中数据
 ```
-
 ### 路由跳转后再返回如何保持第一页面的数据
 ```html
 <-- 路由出口文件修改为以下 -->
