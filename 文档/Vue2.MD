@@ -112,17 +112,27 @@ Object.assign(this.$data,this.$options.data());
 //重置某些属性
 this.record_data = this.$options.data.call(this).record_data
 ```
-
+### 对象各个值求和
 ```js
 //对象各个值求和
 eval(Object.values(obj).join("+"))
 //首先使用Object.values将对象值转换为数组，然后利用eval函数求和
 ```
-
+### 数组去重
 ```js
 //数组去重
 Array.from(new Set(arr))
 //生成一个新数组
+//---数组是一个对象类型的去重
+    deduplicationPatient(data){
+      let obj = {}
+      data.forEach(item => obj[item.patient_id + item.visit_id] = item)
+      let arr = []
+      for (const key in obj) {
+        arr.push(obj[key])
+      }
+      return arr
+    },
 ```
 ### 判断字符串是否包含某些字符
 ```js
