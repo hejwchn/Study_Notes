@@ -521,6 +521,19 @@ function getDate(day, type) {
   let myDate = DayTime.getFullYear() + '-' + (DayTime.getMonth() + 1) + '-' + DayTime.getDate()
   return myDate
 }
+//将一维数组数据转换成树形结构
+//---------------------------------------------------------------------------
+function handleTreeData(arr){
+  return arr.reduce((prev,next)=>{
+    let parent = arr.find(item=>item.node_no === next.node_no_super);
+    if(parent){
+      (parent.children || (parent.children = [])).push(next)
+    }else{
+      prev.push(next)
+    }
+    return prev;
+  },[])
+}
 
 
 
