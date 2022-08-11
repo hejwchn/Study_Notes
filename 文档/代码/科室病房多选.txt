@@ -1,0 +1,71 @@
+
+    //获取用户科室列表
+    getDept() {
+      this.myDeptList = []
+      let myDept = this.$store.User.baseInfo.depts
+      if (myDept == 'all') {
+        this.myDeptList = JSON.parse(JSON.stringify(this.$store.DeptWard.deptList))
+
+      } else {
+        let arrDept = myDept.split(',')
+        this.myDeptList = this.$store.DeptWard.deptList.filter(item => {
+          for (let str of arrDept) {
+            if (str == item.dept_code) {
+              return str == item.dept_code
+            }
+          }
+        })
+      }
+      console.log("用户科室", this.myDeptList);
+    },
+    //获取用户病房列表
+    getWard(codeList) {
+      if (!Array.isArray(codeList)) {
+        codeList = codeList.split(',')
+      }
+      let myWard = this.$store.User.baseInfo.wards
+      if (myWard == 'all') {
+        this.myWardList = this.$store.DeptWard.wardList.filter((item) => {
+          for (const code of codeList) {
+            if (item.dept_code == code) {
+              return item.dept_code == code
+            }
+          }
+        });
+      } else {
+        let arr = []
+        let arrWard = myWard.split(',')
+        arr = this.$store.DeptWard.wardList.filter(item => {
+          for (let str of arrWard) {
+            if (str == item.ward_code) {
+              return str == item.ward_code
+            }
+          }
+        })
+        this.myWardList = arr.filter((item) => {
+          for (const code of codeList) {
+            if (item.dept_code == code) {
+              return item.dept_code == code
+            }
+          }
+        });
+      }
+      console.log("用户病房", this.myWardList);
+    },
+
+
+
+===========================
+watch
+===========================
+"globalStore.User": {
+      deep: true,
+      immediate: true,
+      handler(newval) {
+        if (newval.baseInfo.name != '未登录') {
+          this.wardList = this.$store.DeptWard.wardList
+          this.getDept()
+          this.getList()
+        }
+      }
+    },

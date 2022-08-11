@@ -326,3 +326,19 @@ cellMerge({ row, column, rowIndex, columnIndex }) {
 //el-table使用参数
 :span-method="cellMerge"
 ```
+### element-ui table点击行选中checkbox
+```js
+//1.table上加上  @row-click="handleClickTableRow"
+
+//2.单选框的checkbox那列加上  @selection-change="handleSelectionChange"
+
+//3.table加上ref
+methods: {
+  handleClickTableRow(row, event, column) {
+    this.$refs.fileTable.toggleRowSelection(row);
+  },
+  handleSelectionChange(rows) {
+    this.multipleSelection = rows;
+  },
+},
+```

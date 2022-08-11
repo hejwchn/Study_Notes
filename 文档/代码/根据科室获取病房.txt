@@ -1,0 +1,91 @@
+methods（）
+-----------------------------------
+    //获取用户科室列表
+    getDept() {
+      this.dept = []
+      let myDept = this.$store.User.baseInfo.depts
+      if (myDept == 'all') {
+        this.dept = JSON.parse(JSON.stringify(this.$store.DeptWard.deptList))
+        this.dept.forEach(item => {
+          if (item.dept_code == this.$store.User.baseInfo.in_dept_id) {
+            this.departmentvalue = item.dept_code
+          }
+        })
+      } else {
+        let arrDept = myDept.split(',')
+        this.dept = this.$store.DeptWard.deptList.filter(item => {
+          for (let str of arrDept) {
+            if (str == item.dept_code) {
+              if (item.dept_code == this.$store.User.baseInfo.in_dept_id) {
+                this.departmentvalue = item.dept_code
+              }
+              return str == item.dept_code
+            }
+          }
+        })
+      }
+      console.log("用户科室", this.dept);
+    },
+    //获取用户病房列表
+    getWard(code) {
+      this.roomvalue = ''
+      this.ward = []
+      let myWard = this.$store.User.baseInfo.wards
+      if (myWard == 'all') {
+        this.ward = this.$store.DeptWard.wardList.filter((item) => {
+          return item.dept_code == code
+        });
+      } else {
+        this.ward = []
+        let arr = []
+        let arrWard = myWard.split(',')
+        arr = this.$store.DeptWard.wardList.filter(item => {
+          for (let str of arrWard) {
+            if (str == item.ward_code) {
+              return str == item.ward_code
+            }
+          }
+        })
+        this.ward = arr.filter((item) => {
+          return item.dept_code == code
+        });
+      }
+      if (this.ward.length == 0) {
+        if (myWard.indexOf(code) == '-1') {
+          this.ward = this.$store.DeptWard.wardList.filter((item) => {
+            return item.dept_code == code
+          });
+          this.roomvalue = this.ward[0].ward_code
+        } else {
+          this.ward = []
+          this.roomvalue = ''
+        }
+      } else {
+        this.roomvalue = this.ward[0].ward_code
+      }
+      console.log("用户病房", this.ward);
+    },
+------------------------------
+watch（）
+------------------------------
+"globalStore.User": {
+      deep: true,
+      immediate: true,
+      handler(newval) {
+        if (newval.baseInfo.name != '未登录') {
+          this.getDept()
+          this.getWard(this.$store.User.baseInfo.in_dept_id)
+          this.handleResult()//获取数据的方法
+        }
+      },
+    },
+	//监听病房字段
+    "roomvalue": {
+      handler() {
+        this.handleResult()
+      }
+    },
+----------------------------
+病房字段
+----------------------------
+ @change="getWard"

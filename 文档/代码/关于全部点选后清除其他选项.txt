@@ -1,0 +1,22 @@
+methods（）{}
+--------------------------
+// 病区选择全部
+    selectAll(val){
+      for (let index = 0; index < val.length; index++) {
+        const el = val[index];
+        if (el == '' && val.length > 1) {
+          this.searchForm.bq = this.searchForm.bq.filter(item => {
+            return item != ''
+          })
+        }
+      }
+      if (val[val.length - 1] == '') {
+        this.searchForm.bq = ['']
+      }
+    },
+
+-----------------------------
+html
+-----------------------------
+@change="selectAll"
+<el-option label="全部" value="" v-if="wardList.length"></el-option>

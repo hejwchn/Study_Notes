@@ -1,0 +1,78 @@
+methods
+-------------------
+// ca--------------------------
+    // 拼接原文
+    handleData(data, time) {
+      return new Promise(resolve => {
+        //这是入院评估专用的处理数据方法
+        let res = this.$func.getCipherAndDate1(data, this.patient.patient_id, this.patient.visit_id, time)
+        resolve(res)
+      })
+    },
+    // 通过原文和证书号获取==>密文和时间戳
+    getCipherAndDate() {
+      return new Promise(resolve => {
+        let resData = this.$func.ca_signData1(this.table_primary, sessionStorage.getItem("ca_CertID") || '102080016752429/5901202003007312')
+        resolve(resData)
+      })
+    },
+    // 添加修改ca信息
+    addCa(time) {
+      let params = {
+        table_code: '2',
+        patient_id: this.patient.patient_id,
+        visit_id: this.patient.visit_id,
+        record_date_time: time,
+        table_primary: this.table_primary,
+        original_text: this.original_text,
+        pass_text: this.signData,
+        cert_id: sessionStorage.getItem("ca_CertID") || '102080016752429/5901202003007312',
+        timestamp: this.ts,
+        user_id: this.$store.User.id
+      }
+      this.$api.Ca.addOrUpdateCa(params, (res) => {
+        console.log('CA返回结果', res);
+      });
+    },
+    async excutedCA(data, time) {
+      let Data = await this.handleData(data, time)
+      this.table_primary = Data[0].table_primary
+      this.original_text = Data[0].original_text
+      let cipherAndDate = await this.getCipherAndDate()
+      cipherAndDate = JSON.parse(cipherAndDate)
+      if (cipherAndDate.signData) {
+        this.signData = cipherAndDate.signData //密文
+        this.ts = cipherAndDate.ts //时间戳
+        this.addCa(time)
+      } else {
+        this.$message.error(cipherAndDate)
+      }
+    },
+    //删除Ca信息
+    delCa() {
+      let params = {
+        table_code: '2',
+        patient_id: this.patient.patient_id,
+        visit_id: this.patient.visit_id,
+        record_date_time: this.record_time,
+      }
+      this.$api.Ca.deleteCa(params, (res) => {
+        console.log('删除CA返回结果', res);
+      });
+    },
+    // -----------------------------
+
+
+data
+----------------------------------
+      // ca相关
+      table_primary: '', //拼接的原文
+      original_text: '', //原文base64转换后数据
+      signData: '', //ca返回的密文
+      ts: '', //ca返回的时间戳
+
+
+
+
+最后在保存接口调用excutedCA(data, time)方法，传入record_data和record_time
+需要删除就调用delCa()

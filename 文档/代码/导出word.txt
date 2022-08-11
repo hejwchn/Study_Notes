@@ -1,0 +1,36 @@
+daochu() {
+      if (this.record_id == '') {
+        this.$message('无数据无法导出')
+        return
+      }
+      let dept, ward
+      // 科室
+      this.deptList.forEach(item => {
+        if (item.dept_code == this.myDept) {
+          dept = item.dept_name
+        }
+      })
+      // 病房
+      this.wardList.forEach(item => {
+        if (item.ward_code == this.myWard) {
+          ward = item.ward_name
+        }
+      })
+      this.form.month = this.myMonth
+      this.form.dept = dept
+      this.form.ward = ward
+      let obj = JSON.parse(JSON.stringify(this.form));
+      this.$api.FileApi.exportWordByTemplate({
+          data: obj,
+          tables: [],
+          templateName: "天大总-消毒供应中心沟通记录.docx"
+        },
+        res => {
+          this.$func.exportWord(
+            this.$store.Config.run_mode,
+            res,
+            `${this.myMonth}_${dept}_${ward}消毒供应中心沟通记录.docx`
+          );
+        }
+      );
+    }

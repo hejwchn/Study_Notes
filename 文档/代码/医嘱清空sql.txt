@@ -1,0 +1,16 @@
+update MM_CMIS_SYNC.EXECUTE_ORDERS t
+      set t.execute_nursename = null, t.execute_time = null ,
+                                t.execute_flag = '0' , t.db_user = null ,
+                                t.executed_flag = null ,
+                                t.execute_sy_nursename = null ,
+                                t.execute_sy_time = null ,
+                                t.execute_py_nursename = null ,
+                                t.execute_py_time = null ,
+                                t.execute_type = '0' ,
+                                t.check_nursename = null ,
+                                t.check_time = null ,
+                                t.execute_end_nursename = null ,
+                                t.execute_end_time = null
+    where t.patient_id = 'ZY00010002073412' --  ¸¾Ò» 123´²
+      and t.visit_id = '1'
+      and t.order_no = '53454391' --Ò½ÖöºÅ£¨¸ü»»£©

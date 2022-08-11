@@ -1,0 +1,17 @@
+globalStore:this.$store  在文件夹 store 中 
+$func   在文件夹 全局js 中
+
+
+:style="[total_height]"
+//元素上添加
+
+total_height:{
+        height:'',
+      },
+//data中添加
+
+
+ getHeight(){
+      this.total_height.height=window.innerHeight-20+'px';
+    },
+//methods中添加

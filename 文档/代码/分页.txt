@@ -1,0 +1,40 @@
+data定义数据
+---------------------
+      total: null,
+      currentPage: 1,
+      pageNum: 10,
+---------------------
+medthods()
+---------------------
+
+    changePage(currentPage) {
+      this.currentPage = currentPage;
+    },
+    handleSizeChange(pageNum) {
+      this.pageNum = pageNum;
+    }，
+---------------------
+序号
+---------------------
+<el-table-column label="序号" width="50">
+          <template slot-scope="scope">{{
+            scope.$index + (currentPage - 1) * pageNum + 1
+          }}</template>
+        </el-table-column>
+---------------------
+表格绑定数据
+---------------------
+tableData.slice((currentPage - 1) * pageNum, currentPage * pageNum)
+---------------------
+分页组件
+---------------------
+<el-pagination
+        @size-change="handleSizeChange"
+        @current-change="changePage"
+        :current-page.sync="currentPage"
+        :page-sizes="[10, 20, 30, 40, 50]"
+        :page-size="pageNum"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+      >
+      </el-pagination>

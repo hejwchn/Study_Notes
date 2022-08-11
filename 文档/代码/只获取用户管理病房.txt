@@ -1,0 +1,20 @@
+"globalStore.User": {
+      deep: true,
+      immediate: true,
+      handler(newval) {
+        if (newval.baseInfo.name != 'Î´µÇÂ¼') {
+          if (newval.wards == 'all') {
+            this.wardList = this.$store.DeptWard.wardList
+          } else {
+            console.log(newval.wards);
+            this.wardList = this.$store.DeptWard.wardList.filter(item => {
+              for (const code of newval.wards) {
+                if (code == item.ward_code) {
+                  return code == item.ward_code
+                }
+              }
+            })
+          }
+        }
+      },
+    },
