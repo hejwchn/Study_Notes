@@ -756,4 +756,10 @@ ft(2,3);
 ft(3,4);
 ft(5,8);
 ```
-
+## 正则
+`判断是否为汉字`
+```js
+//汉字为true，否为false
+var pattern = new RegExp("[\u4E00-\u9FA5]+")
+pattern.test(item.vital_signs_values)
+```
