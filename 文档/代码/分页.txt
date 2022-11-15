@@ -12,7 +12,7 @@ medthods()
     },
     handleSizeChange(pageNum) {
       this.pageNum = pageNum;
-    }£¬
+    },
 ---------------------
 ÐòºÅ
 ---------------------

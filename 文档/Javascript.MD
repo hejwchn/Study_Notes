@@ -763,3 +763,13 @@ ft(5,8);
 var pattern = new RegExp("[\u4E00-\u9FA5]+")
 pattern.test(item.vital_signs_values)
 ```
+`判断是否为纯数字`
+```js
+var pattern = new RegExp(/^\d+$/)
+pattern.test(item.vital_signs_values)
+```
+## 回到顶部
+```js
+//是给滚动的父元素设置，也就是设置了overflow：auto的元素
+document.getElementsByClassName('equi_container')[0].scrollTop = 0
+```
