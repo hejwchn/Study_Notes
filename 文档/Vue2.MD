@@ -342,3 +342,16 @@ methods: {
   },
 },
 ```
+### 父子组件中属性双向绑定（.sync实现）
+<!-- 子组件 -->
+```js
+//‘update:属性名’ update为关键，属性名即为父组件传入子组件后子组件定义的名称
+//在子组件中需要的业务中触发
+this.$emit('update:title', '触发了')
+```
+<!-- 父组件 -->
+```html
+<!-- 带有 .sync 修饰符的 v-bind 不能和表达式一起使用（如: v-bind:title.sync=“doc.title + ‘!’” 是无效的）。取而代之的是，你只能提供你想要绑定的 property 名，类似 v-model -->
+<!-- :为v-bind绑定，.sync为关键，.sync前的参数名为子组件中的prop即update后的参数名，=后的参数即为父组件data定义的属性 -->
+<son :title.sync='fatherTitle'> </son>
+```
