@@ -773,3 +773,17 @@ pattern.test(item.vital_signs_values)
 //是给滚动的父元素设置，也就是设置了overflow：auto的元素
 document.getElementsByClassName('equi_container')[0].scrollTop = 0
 ```
+## 一维转二维数组
+`对象数组根据同一code进行转换`
+```js
+var arrayTwo = Object.values(arrayFirst.reduce((res, item) => {
+  res[item.code] ? res[item.code].push(item) : res[item.code] = [item];
+  return res;
+}, {}));
+console.log(arrayTwo)
+```
+## 二维转一维数组
+```js
+var array = Array.prototype.concat.apply([], arr)
+console.log(array)
+```
