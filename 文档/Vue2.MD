@@ -124,6 +124,7 @@ eval(Object.values(obj).join("+"))
 Array.from(new Set(arr))
 //生成一个新数组
 //---数组是一个对象类型的去重
+//方法1:
     deduplicationPatient(data){
       let obj = {}
       data.forEach(item => obj[item.patient_id + item.visit_id] = item)
@@ -133,6 +134,8 @@ Array.from(new Set(arr))
       }
       return arr
     },
+//方法2: //先将数组中的对象转换为字符串，然后去重完后再转换为对象
+  Array.from(new Set(arr.map(t => JSON.stringify(t)))).map(s => JSON.parse(s))
 ```
 ### 判断字符串是否包含某些字符
 ```js

@@ -333,4 +333,12 @@ div{
   </van-checkbox>
 </div>
 ```
+#### 文字过长显示省略号
+```css
+.style{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+```
 
