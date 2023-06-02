@@ -787,3 +787,19 @@ console.log(arrayTwo)
 var array = Array.prototype.concat.apply([], arr)
 console.log(array)
 ```
+## 实现sleep
+```js
+  const sleep = time => new Promise(resolve => setTimeout(resolve,time))
+  //调用
+  //方法1: async await
+  async test(){
+    console.log(1)
+    await sleep(2000)
+    console.log(2) //2s后打印
+  }
+  //方法2: .then()
+  console.log(1)
+  sleep(2000).then(_ => {
+    console.log(2) //2s后打印
+  })
+```
